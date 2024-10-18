@@ -1,0 +1,29 @@
+SELECT 
+    FORMAT_DATE ('%Y_%m', date) AS date,
+    region,
+    CASE
+    WHEN (Small_Bags / NULLIF(Total_Bags, 0))*100 >= 90 THEN 'over_90%'
+    WHEN (Small_Bags / NULLIF(Total_Bags, 0))*100  BETWEEN 89 AND 60 THEN '60-90%'
+    WHEN (Small_Bags / NULLIF(Total_Bags, 0))*100  BETWEEN 59 AND 30 THEN '30-59%'
+    WHEN Small_Bags = 0 THEN 'NO SALES'
+    ELSE 'less_30%'
+    END AS small_bag_perc_range,
+    CASE 
+    WHEN (Large_Bags / NULLIF(Total_Bags, 0))*100  >= 90 THEN 'over_90%'
+    WHEN (Large_Bags / NULLIF(Total_Bags, 0))*100 BETWEEN 89 AND 60 THEN '60-90%'
+    WHEN (Large_Bags / NULLIF(Total_Bags, 0))*100 BETWEEN 59 AND 30 THEN '30-59%'
+    WHEN Large_Bags = 0 THEN 'NO SALES'
+    ELSE 'less_30%'
+    END AS large_bag_perc_range,
+    CASE
+    WHEN (XLarge_Bags / NULLIF(Total_Bags, 0))*100 >= 90 THEN 'over_90%'
+    WHEN (XLarge_Bags / NULLIF(Total_Bags, 0))*100 BETWEEN 89 AND 60 THEN '60-90%'
+    WHEN (XLarge_Bags / NULLIF(Total_Bags, 0))*100 BETWEEN 59 AND 30 THEN '30-59%'
+    WHEN XLarge_Bags = 0 THEN 'NO SALES'
+    ELSE 'less_30%'
+    END AS xlarge_bag_perc_range
+  
+  FROM
+    melodic-wonder-437518-c3.avocado_data.avocado_price
+  GROUP BY date, region, Small_Bags, Large_Bags, XLarge_Bags,Total_Bags
+  ORDER BY date
