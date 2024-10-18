@@ -23,21 +23,19 @@ Calculate the monthly sales percentages for different avocado bag sizes across r
 Compare the performance of small, large, and x-large bags over time.
 Offer insights into which bag size is performing best in each region.
 
-## SQL Query Breakdown
-1. Number_Bags_Sold CTE
-This Common Table Expression (CTE) aggregates the number of small, large, and x-large bags sold per region and month. It groups the data by formatted month and region, calculating total sales for each bag size.
-2. Total_Sales CTE
-This CTE calculates the total number of all bags (small, large, and x-large combined) sold per region and month. This will allow us to compute the percentage of each bag size later.
-3. Final SELECT Statement
-This section calculates the sales percentage of each bag size by dividing the number of bags sold (num_sold) by the total bags sold (total_sales), multiplying by 100 to get the percentage. The results are then rounded to the nearest whole number for easier readability.
+## Analysis 1: Sales Percentage Calculation with Grouping
+SQL Query
+This query calculates the sales percentage of each bag size based on the total bags sold. It categorizes the results into ranges for better insight.
+
+## Analysis 2: Bag Size Sales Percentage Ranges
+SQL Query
+This query analyzes sales percentages and categorizes the results into defined ranges (e.g., "over 90%", "60-90%", "NO SALES"). This provides a clearer picture of sales performance for each bag size.
 
 ## Results
-The query will return the following columns:
+Both queries return insights into avocado sales by bag size, allowing for a comparative analysis of performance:
 
-date: The month of the sales (formatted as YYYY_MM).
-region: The region where the sales occurred.
-bag_size: The size of the bag (small, large, x-large).
-sales_percentage: The percentage of total bags sold that each bag size represents.
+Analysis 1 provides a direct sales percentage for each bag size.
+Analysis 2 categorizes the sales performance into ranges, highlighting zero sales situations for clearer reporting..
 
 ## How to Use
 Download the Avocado Prices Dataset from Kaggle.
