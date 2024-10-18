@@ -1,0 +1,69 @@
+WITH Number_Bags_Sold AS (
+
+
+SELECT 
+  FORMAT_DATE ('%Y_%m', date) AS date,
+  region,
+  "small" as bag_size,
+  SUM(Small_Bags) AS num_sold 
+FROM 
+  melodic-wonder-437518-c3.avocado_data.avocado_price
+Group by 
+  date, region
+
+UNION ALL
+
+SELECT
+  FORMAT_DATE ('%Y_%m', date) AS date,
+  region,
+  "largel" as bag_size,
+  SUM(Large_Bags) AS num_sold 
+FROM 
+  melodic-wonder-437518-c3.avocado_data.avocado_price
+Group by 
+  date, region
+
+
+UNION ALL
+SELECT
+  FORMAT_DATE ('%Y_%m', date) AS date,
+  region,
+  "xlargel" as bag_size,
+  SUM(XLarge_Bags) AS num_sold 
+FROM 
+  melodic-wonder-437518-c3.avocado_data.avocado_price
+Group by 
+  date, region
+),
+
+Total_Sales AS (
+
+
+  SELECT
+    FORMAT_DATE ('%Y_%m', date) AS date,
+    region,
+    SUM(Total_Bags) AS total_sales
+  FROM
+    melodic-wonder-437518-c3.avocado_data.avocado_price
+  GROUP BY 
+    FORMAT_DATE ('%Y_%m', date),
+    region
+)
+
+
+SELECT
+
+  nbs.date,
+  nbs.region,
+  nbs.bag_size,
+  ROUND((nbs.num_sold / ts.total_sales)*100) AS sales_percentage
+
+FROM 
+  Number_Bags_Sold AS nbs
+JOIN 
+  Total_Sales AS ts
+ON
+  nbs.date = ts.date AND nbs.region = ts.region
+ORDER BY 
+  nbs.date, nbs.region, nbs.bag_size
+;
